@@ -1,0 +1,46 @@
+{
+  "name": "kitchen-gpt",
+  "description": "Experiment on chatbot",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@dqbd/tiktoken": "^0.4.0",
+    "@tensorflow-models/qna": "^1.0.1",
+    "@tensorflow/tfjs": "4.2.0",
+    "@types/node": "^18.14.2",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "chatgpt": "^4.8.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.4.4",
+    "use-debounce": "^9.0.3",
+    "usehooks-ts": "^2.9.1"
+  },
+  "scripts": {
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.2.7"
+  }
+}
