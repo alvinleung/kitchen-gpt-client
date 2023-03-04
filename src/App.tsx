@@ -51,10 +51,10 @@ const App: React.FC = () => {
 
     const wordcount = latestMessage.content.split(" ").length;
 
-    if (wordcount > 30) {
-      speak("my asnwer too fucking long, I am not reading it out.");
-      return;
-    }
+    // if (wordcount > 30) {
+    //   speak("my asnwer too fucking long, I am not reading it out.");
+    //   return;
+    // }
     if (latestMessage.role === MessageRole.ASSISTANT) {
       speak(latestMessage.content);
     }
@@ -74,24 +74,6 @@ const App: React.FC = () => {
             onSubmit={handleSubmit}
             disabled={isWaitingResponse || isSpeaking}
           />
-          {/* <input
-            disabled={isWaitingResponse}
-            name="prompt"
-            style={{
-              opacity: isWaitingResponse ? 0.5 : 1,
-            }}
-            className="w-full p-4 text-4xl block bg-gray-700 rounded-xl outline-none"
-            placeholder="Ask a Question"
-            onChange={(e) => setPrompt(e.target.value)}
-            onKeyDown={handleKeyDown}
-            value={prompt}
-            onFocus={() => {
-              startSpeechRecognition();
-            }}
-            onBlur={() => {
-              stopSpeechRecognition();
-            }}
-          /> */}
         </div>
         <div className="flex flex-col-reverse">
           {messages.map((message, index) => (

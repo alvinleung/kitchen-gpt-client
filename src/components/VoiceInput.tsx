@@ -28,8 +28,11 @@ const VoiceInput = ({
   const isAskingRef = useStateRef(isAsking);
   const disabledRef = useStateRef(disabled);
 
+  const [ambientTranscript, setAmbientTranscript] = useState("");
+
   const wakeUpRecognizer = useSpeech({
     onTranscriptionUpdate: (transcript) => {
+      setAmbientTranscript(transcript);
       if (disabledRef.current) return;
       if (containsPhrase(transcript, WAKE_UP_PHRASE)) {
         setIsAsking(true);
@@ -37,7 +40,7 @@ const VoiceInput = ({
     },
   });
 
-  const { startSpeechRecognition, stopSpeechRecognition } = useSpeech({
+  const { startSpeechRecognition, abortSpeechRecognition } = useSpeech({
     onTranscriptionUpdate: (transcript) => {
       setTranscript(transcript);
     },
@@ -64,14 +67,14 @@ const VoiceInput = ({
     }
 
     onStopRecognition?.();
-    stopSpeechRecognition();
+    abortSpeechRecognition();
     wakeUpRecognizer.startSpeechRecognition();
     setTranscript("");
   }, [isAsking]);
 
   useEffect(() => {
     if (disabled) {
-      stopSpeechRecognition();
+      abortSpeechRecognition();
       return;
     }
 
@@ -112,8 +115,12 @@ const VoiceInput = ({
         backgroundColor: isAsking ? "rgba(55,65,81,1)" : "rgba(55,65,81,.5)",
       }}
     >
-      {!isAsking && !disabled && <div>Click here or say "Hello" to begin</div>}
-      {isAsking && <div>{transcript === "" ? "Listening..." : transcript}</div>}
+      {!isAsking && !disabled && <div>Click here or say "Hello" to begin </div>}
+      {isAsking && (
+        <div className="opacity-50 ">
+          {transcript === "" ? "Listening..." : transcript}
+        </div>
+      )}
       &nbsp;
     </motion.div>
   );

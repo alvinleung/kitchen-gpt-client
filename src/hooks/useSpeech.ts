@@ -65,6 +65,14 @@ export function useSpeech(handlers?: SpeechHandlers) {
     };
 
     recognition.onend = function () {
+      if (isRecognizingRef.current) {
+        // true meaning not aborted by user
+        // keep alive then
+        console.log("it stopped");
+        setTimeout(() => recognition.start(), 1000);
+        return;
+      }
+
       isRecognizingRef.current = false;
     };
 
@@ -89,14 +97,21 @@ export function useSpeech(handlers?: SpeechHandlers) {
     }
     isRecognizingRef.current = true;
   };
+
+  const abortSpeechRecognition = () => {
+    // console.log("stop recognising");
+    isRecognizingRef.current = false;
+    recognition.abort();
+  };
   const stopSpeechRecognition = () => {
     // console.log("stop recognising");
-    recognition.stop();
     isRecognizingRef.current = false;
+    recognition.stop();
   };
 
   return {
     startSpeechRecognition,
+    abortSpeechRecognition,
     stopSpeechRecognition,
   };
 }
