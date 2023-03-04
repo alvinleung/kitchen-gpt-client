@@ -14,8 +14,13 @@ export function useMessageStore() {
     messageStore.add(role, content);
     setMessages([...messageStore.getRecentMessages()]);
   };
+
+  const clearMessages = () => {
+    messageStore.clear();
+  };
   return {
     messages,
     addMessage,
+    clearMessages,
   };
 }

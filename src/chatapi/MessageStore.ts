@@ -10,7 +10,7 @@ export interface Message {
 }
 
 export const createMessageStore = () => {
-  const store: Message[] = [];
+  let store: Message[] = [];
 
   const add = (role: MessageRole, content: string) => {
     store.push({
@@ -23,9 +23,13 @@ export const createMessageStore = () => {
     return store;
   };
   const snapshot = () => JSON.parse(JSON.stringify(store));
+  const clear = () => {
+    store = [];
+  };
 
   return {
     add,
+    clear,
     snapshot,
     getRecentMessages,
   };
