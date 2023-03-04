@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { MessageRole } from "../chatapi/MessageStore";
 import { useMessageStore } from "./useMessageStore";
 
@@ -45,15 +45,22 @@ export function useChat() {
     setIsWaitingResponse(false);
   };
 
+  const resetMessages = async () => {
+    clearMessages();
+    await fetch("/reset", {
+      method: "POST",
+    });
+  };
+
+  useEffect(() => {
+    // reset chat session on start
+    resetMessages();
+  }, []);
+
   return {
     submitPrompt,
     messages,
     isWaitingResponse,
-    clearMessages: async () => {
-      await fetch("/reset", {
-        method: "POST",
-      });
-      clearMessages();
-    },
+    clearMessages: resetMessages,
   };
 }
