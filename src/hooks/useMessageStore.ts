@@ -17,6 +17,7 @@ export function useMessageStore() {
 
   const clearMessages = () => {
     messageStore.clear();
+    setMessages([]);
   };
   return {
     messages,
