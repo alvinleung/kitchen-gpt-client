@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 
 interface SpeechHandlers {
   // live transcription
@@ -101,8 +101,10 @@ export function useSpeech(handlers?: SpeechHandlers) {
   const abortSpeechRecognition = () => {
     // console.log("stop recognising");
     isRecognizingRef.current = false;
+    console.log(isRecognizingRef.current);
     recognition.abort();
   };
+
   const stopSpeechRecognition = () => {
     // console.log("stop recognising");
     isRecognizingRef.current = false;

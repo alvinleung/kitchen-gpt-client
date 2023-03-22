@@ -5,8 +5,6 @@
   "private": true,
   "dependencies": {
     "@dqbd/tiktoken": "^0.4.0",
-    "@tensorflow-models/qna": "^1.0.1",
-    "@tensorflow/tfjs": "4.2.0",
     "@types/node": "^18.14.2",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
@@ -21,7 +19,7 @@
     "usehooks-ts": "^2.9.1"
   },
   "scripts": {
-    "start": "react-scripts --openssl-legacy-provider start",
+    "start": "react-scripts start",
     "build": "react-scripts --openssl-legacy-provider build",
     "eject": "react-scripts eject"
   },

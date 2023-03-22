@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
-import React, { useEffect, useRef, useState } from "react";
-import { useSpeech } from "../hooks/useSpeech";
-import { useStateRef } from "../hooks/useStateRef";
+import {motion} from "framer-motion";
+import React, {useEffect, useRef, useState} from "react";
+import {useSpeech} from "../hooks/useSpeech";
+import {useStateRef} from "../hooks/useStateRef";
 
 type Props = {
   onStartRecognition?: () => void;
@@ -11,11 +11,32 @@ type Props = {
 };
 
 const WAKE_UP_PHRASE = "hello";
-const CANCEL_LISTENING_PHRASE = "stop.";
-const CANCEL_LISTENING_PHRASE_ALT = "never mind";
+const WAKE_UP_PHRASES = ["hello", "jarvis"];
+const CANCEL_LISTENING_PHRASE = "stop";
+const CANCEL_LISTENING_PHRASE_ALT: string[] = [
+  "okay",
+  "cool",
+  "dope",
+  "thanks",
+  "thank",
+  "shut up",
+];
+const ELABORATE_PHRASE = "more";
 
 const containsPhrase = (transcript: string, phrase: string) =>
   transcript.toLowerCase().indexOf(phrase) !== -1;
+
+const containsAnyPhrase = (transcript: string, phrases: string[]) => {
+  let found = false;
+
+  phrases.forEach((phrase: string) => {
+    if (containsPhrase(transcript, phrase)) {
+      found = true;
+    }
+  });
+
+  return found;
+};
 
 const VoiceInput = ({
   onSubmit,
@@ -34,25 +55,30 @@ const VoiceInput = ({
     onTranscriptionUpdate: (transcript) => {
       setAmbientTranscript(transcript);
       if (disabledRef.current) return;
-      if (containsPhrase(transcript, WAKE_UP_PHRASE)) {
+      if (containsAnyPhrase(transcript, WAKE_UP_PHRASES)) {
         setIsAsking(true);
       }
     },
   });
 
-  const { startSpeechRecognition, abortSpeechRecognition } = useSpeech({
+  const {startSpeechRecognition, abortSpeechRecognition} = useSpeech({
     onTranscriptionUpdate: (transcript) => {
       setTranscript(transcript);
     },
     onTranscriptionFinalized: (transcript) => {
       if (
         containsPhrase(transcript, CANCEL_LISTENING_PHRASE) ||
-        containsPhrase(transcript, CANCEL_LISTENING_PHRASE_ALT)
+        containsAnyPhrase(transcript, CANCEL_LISTENING_PHRASE_ALT)
       ) {
         setIsAsking(false);
         setTranscript("");
         return;
       }
+      if (containsPhrase(transcript, ELABORATE_PHRASE)) {
+        setTranscript("tell me more");
+        return;
+      }
+
       onSubmit && onSubmit(transcript);
       setTranscript("");
     },
@@ -100,7 +126,7 @@ const VoiceInput = ({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  });
 
   return (
     <motion.div

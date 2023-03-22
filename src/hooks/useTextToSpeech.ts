@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import {useEffect, useMemo, useState} from "react";
 
 export function useTextToSpeeh() {
   const msg = useMemo(() => new SpeechSynthesisUtterance(), []);

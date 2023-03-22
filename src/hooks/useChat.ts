@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
-import { MessageRole } from "../chatapi/MessageStore";
-import { useMessageStore } from "./useMessageStore";
+import {useCallback, useEffect, useState} from "react";
+import {MessageRole} from "../chatapi/MessageStore";
+import {useMessageStore} from "./useMessageStore";
 
 export function useChat() {
-  const { messages, addMessage, clearMessages } = useMessageStore();
+  const {messages, addMessage, clearMessages} = useMessageStore();
   const [isWaitingResponse, setIsWaitingResponse] = useState(false);
 
   const submitPrompt = async (prompt: string) => {
@@ -39,6 +39,7 @@ export function useChat() {
 
     // prompt chat gpt
     const response = await promptGPTFromServer(prompt);
+    console.log(response);
     addMessage(MessageRole.ASSISTANT, response.content);
 
     // done prompting
